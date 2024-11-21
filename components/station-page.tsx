@@ -1,26 +1,62 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { Search, ExternalLink, ChevronRight, MoreVertical } from "lucide-react";
-
+import Image from "next/image";
+import {
+  ChevronDown,
+  ChevronRight,
+  ExternalLink,
+  MoreVertical,
+  Search,
+} from "lucide-react";
+import "leaflet/dist/leaflet.css";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "./ui/input";
 import Navbar from "./ui/navbar";
-import Footer from "./ui/footer";
+import { useState } from "react";
+import dynamic from "next/dynamic";
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false }
+);
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  { ssr: false }
+);
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  { ssr: false }
+);
+const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
+  ssr: false,
+});
 
-export function LandingPage() {
+export function StationPage() {
+  const [showMap, setShowMap] = useState(false);
+
+  const handleToggleMap = () => {
+    setShowMap((prev) => !prev); // Toggle map visibility
+  };
+
   return (
     <div className="min-h-screen bg-[#fdf8f4]">
       {/* Header */}
-      <Navbar />
+      <Navbar>
+        <div className="relative md:block">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+          <Input
+            placeholder="Add for information..."
+            className="pl-10 w-[200px] "
+          />
+        </div>
+      </Navbar>
 
       {/* Hero Section */}
       <section className="px-4 py-12 md:px-6 md:py-24">
@@ -38,10 +74,10 @@ export function LandingPage() {
                 <br />
                 the world of energy trading
               </h1>
-              <Button className="bg-green-800 text-white hover:bg-green-700">
+              {/* <Button className="bg-green-800 text-white hover:bg-green-700">
                 Learn More
-              </Button>
-              <div className="flex items-center gap-4">
+              </Button> */}
+              {/* <div className="flex items-center gap-4">
                 <Image
                   src="/placeholder.svg"
                   alt="Profile"
@@ -53,11 +89,11 @@ export function LandingPage() {
                   GreenVolt energy to begin roll at Austin facility in 2025,
                   confirmed by team.
                 </p>
-              </div>
+              </div> */}
             </div>
             <div className="relative h-[400px]">
               <Image
-                src="/placeholder.svg"
+                src="/static/station-bg.png"
                 alt="Electric Car Charging"
                 fill
                 className="object-contain"
@@ -75,7 +111,7 @@ export function LandingPage() {
             <div className="text-center">
               <div className="relative h-32 w-32 mx-auto mb-4">
                 <Image
-                  src="/placeholder.svg"
+                  src="/static/home-charging.png"
                   alt="Home Charging"
                   fill
                   className="object-contain"
@@ -86,7 +122,7 @@ export function LandingPage() {
             <div className="text-center">
               <div className="relative h-32 w-32 mx-auto mb-4 bg-green-800 rounded-full">
                 <Image
-                  src="/placeholder.svg"
+                  src="/static/charging-station.png"
                   alt="Charging Station"
                   fill
                   className="object-contain p-4"
@@ -97,7 +133,7 @@ export function LandingPage() {
             <div className="text-center">
               <div className="relative h-32 w-32 mx-auto mb-4">
                 <Image
-                  src="/placeholder.svg"
+                  src="/static/mobile-charging.png"
                   alt="Mobile Charging"
                   fill
                   className="object-contain"
@@ -111,6 +147,35 @@ export function LandingPage() {
 
       {/* Trading Cards */}
       <section className="px-4 py-12 md:px-6">
+        <Button
+          onClick={handleToggleMap}
+          className="bg-green-800 w-48 text-white hover:bg-green-700 my-4"
+        >
+          {showMap ? "Hide Map" : "Find Stations Nearby"}
+        </Button>
+
+        {showMap && (
+          <div className="w-full h-96 my-4" id="map-container">
+            <MapContainer
+              center={[51.505, -0.09]} // Default center
+              zoom={13}
+              scrollWheelZoom={false}
+              className="h-full w-full rounded-lg shadow"
+              key={showMap ? "map-active" : "map-inactive"} // Force cleanup on toggle
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+              <Marker position={[51.505, -0.09]}>
+                <Popup>
+                  This is a charging station. <br /> 2 Used / 3 Total.
+                </Popup>
+              </Marker>
+            </MapContainer>
+          </div>
+        )}
+
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
@@ -136,7 +201,7 @@ export function LandingPage() {
                     </div>
                     <div className="relative h-24">
                       <Image
-                        src="/placeholder.svg"
+                        src="/static/charger.png"
                         alt="Charging Station"
                         fill
                         className="object-contain"
@@ -154,36 +219,43 @@ export function LandingPage() {
       </section>
 
       {/* Contact Form */}
-      <section className="px-4 py-12 md:px-6 bg-white">
+      <section className="px-4 py-12 md:px-6 ">
         <div className="mx-auto max-w-6xl">
-          <div className="grid gap-8 md:grid-cols-2">
-            <div>
-              <h2 className="text-3xl font-bold mb-4">
-                Want to put up your station here on Greenvolt. Fill the form and
-                we will be in touch.
-              </h2>
-              <form className="space-y-4">
-                <Input placeholder="Name" />
-                <Input placeholder="Email" />
-                <Input placeholder="Phone" />
-                <Input placeholder="Last Name" />
-                <div className="flex gap-4">
-                  <Button className="bg-green-800 text-white hover:bg-green-700">
-                    Submit
-                  </Button>
-                  <Button variant="outline">Cancel</Button>
+          <div className="flex flex-row flex-wrap">
+            <h2 className="text-3xl font-bold mb-4 max-w-xl px-10">
+              Want to put up your station here on Greenvolt. Fill the form and
+              we will be in touch.
+            </h2>
+            <form className="space-y-4 bg-white p-4 rounded-3xl px-10 mx-10">
+              <h1 className="font-bold">Submit Details</h1>
+              <div className="flex flex-row flex-wrap space-x-2">
+                <div className="space-y-4">
+                  <Input placeholder="Name" />
+                  <Input placeholder="Email" />
+                  <Input placeholder="Phone" />
                 </div>
-              </form>
-            </div>
-            <div className="relative h-[400px] hidden md:block">
+                <div className="space-y-4">
+                  <Input placeholder="Last Name" />
+                  <Input placeholder="Company" />
+                  <Input placeholder="Address" />
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <Button className="bg-green-800 text-white hover:bg-green-700">
+                  Submit
+                </Button>
+                <Button variant="outline">Cancel</Button>
+              </div>
+            </form>
+          </div>
+          {/* <div className="relative h-[400px] hidden md:block">
               <Image
                 src="/placeholder.svg"
                 alt="Contact Illustration"
                 fill
                 className="object-contain"
               />
-            </div>
-          </div>
+            </div> */}
         </div>
       </section>
 
@@ -242,7 +314,91 @@ export function LandingPage() {
       </section>
 
       {/* Footer */}
-      <Footer />
+      <footer className="bg-white px-4 py-8 md:px-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-8 md:grid-cols-4">
+            <div>
+              <Image
+                src="/static/logo.png"
+                alt="GreenVolt Logo"
+                width={40}
+                height={40}
+                className="mb-4"
+              />
+              <p className="text-sm text-gray-500">
+                © 2023 GreenVolt, Inc.
+                <br />
+                All rights reserved
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4">Resources</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Blog
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Career
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Support
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4">Company</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Team
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Contact
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4">Connect</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Twitter
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Facebook
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    LinkedIn
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Instagram
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
