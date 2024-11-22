@@ -9,7 +9,8 @@ import {
   MoreVertical,
   Search,
 } from "lucide-react";
-import "leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -20,29 +21,12 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "./ui/input";
 import Navbar from "./ui/navbar";
-import { useState } from "react";
-import dynamic from "next/dynamic";
-const MapContainer = dynamic(
-  () => import("react-leaflet").then((mod) => mod.MapContainer),
-  { ssr: false }
-);
-const TileLayer = dynamic(
-  () => import("react-leaflet").then((mod) => mod.TileLayer),
-  { ssr: false }
-);
-const Marker = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Marker),
-  { ssr: false }
-);
-const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
-  ssr: false,
-});
 
 export function StationPage() {
   const [showMap, setShowMap] = useState(false);
 
-  const handleToggleMap = () => {
-    setShowMap((prev) => !prev); // Toggle map visibility
+  const handleFindStations = () => {
+    setShowMap(true);
   };
 
   return (
@@ -147,35 +131,9 @@ export function StationPage() {
 
       {/* Trading Cards */}
       <section className="px-4 py-12 md:px-6">
-        <Button
-          onClick={handleToggleMap}
-          className="bg-green-800 w-48 text-white hover:bg-green-700 my-4"
-        >
-          {showMap ? "Hide Map" : "Find Stations Nearby"}
+        <Button className="bg-green-800 w-48 text-white hover:bg-green-700 my-4">
+          Find Stations Nearby
         </Button>
-
-        {showMap && (
-          <div className="w-full h-96 my-4" id="map-container">
-            <MapContainer
-              center={[51.505, -0.09]} // Default center
-              zoom={13}
-              scrollWheelZoom={false}
-              className="h-full w-full rounded-lg shadow"
-              key={showMap ? "map-active" : "map-inactive"} // Force cleanup on toggle
-            >
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              />
-              <Marker position={[51.505, -0.09]}>
-                <Popup>
-                  This is a charging station. <br /> 2 Used / 3 Total.
-                </Popup>
-              </Marker>
-            </MapContainer>
-          </div>
-        )}
-
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
@@ -314,91 +272,7 @@ export function StationPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white px-4 py-8 md:px-6">
-        <div className="mx-auto max-w-6xl">
-          <div className="grid gap-8 md:grid-cols-4">
-            <div>
-              <Image
-                src="/static/logo.png"
-                alt="GreenVolt Logo"
-                width={40}
-                height={40}
-                className="mb-4"
-              />
-              <p className="text-sm text-gray-500">
-                © 2023 GreenVolt, Inc.
-                <br />
-                All rights reserved
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Resources</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="#" className="text-sm text-gray-500">
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-sm text-gray-500">
-                    Career
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-sm text-gray-500">
-                    Support
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Company</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="#" className="text-sm text-gray-500">
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-sm text-gray-500">
-                    Team
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-sm text-gray-500">
-                    Contact
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Connect</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="#" className="text-sm text-gray-500">
-                    Twitter
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-sm text-gray-500">
-                    Facebook
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-sm text-gray-500">
-                    LinkedIn
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-sm text-gray-500">
-                    Instagram
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
+    
     </div>
   );
 }

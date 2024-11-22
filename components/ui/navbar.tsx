@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { Input } from "./input";
 import { Button } from "./button";
+import ConnectButton from "./connectButton";
 
 const Navbar = ({
   children,
@@ -42,6 +43,7 @@ const Navbar = ({
           <Link href="/faq" className="text-sm font-atkinson">
             FAQ
           </Link>
+          <ConnectButton />
         </div>
 
         {/* <Button>Connect to a wallet</Button> */}

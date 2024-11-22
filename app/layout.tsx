@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Atkinson_Hyperlegible } from "next/font/google";
 import "./globals.css";
+import Providers from "./providers";
+
+import ToastProvider from "./providers/ToastProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,7 +37,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${atkinson.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Providers>
+          <ToastProvider>{children}</ToastProvider>
+        </Providers>
       </body>
     </html>
   );
