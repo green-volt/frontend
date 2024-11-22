@@ -7,8 +7,10 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Navbar from "./ui/navbar";
 import Footer from "./ui/footer";
 import Image from "next/image";
+// import { useRouter } from "next/router";
 
 export function LandingPage() {
+  // const route = useRouter();
   return (
     <div className="min-h-screen bg-[#FAF7F2]">
       {/* Navigation */}
@@ -25,7 +27,10 @@ export function LandingPage() {
               <p className="text-gray-600">
                 Buy and sell energy through a peer-to-peer network
               </p>
-              <Button className="bg-[#0B6E4F] hover:bg-[#0B6E4F]/90 text-white px-8">
+              <Button
+                onClick={() => route.push("/trade")}
+                className="bg-[#0B6E4F] hover:bg-[#0B6E4F]/90 text-white px-8"
+              >
                 Trade
               </Button>
             </div>

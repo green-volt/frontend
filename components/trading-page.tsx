@@ -13,19 +13,24 @@ import { Card } from "@/components/ui/card";
 import Navbar from "./ui/navbar";
 import { useState } from "react";
 import Footer from "./ui/footer";
+import { useRouter } from "next/navigation";
+import { useWallet } from "@jup-ag/wallet-adapter";
 
 export function TradingPage() {
-  const [connect, isConnect] = useState(false);
+  const { connected } = useWallet();
   const [buy, setBuy] = useState(true);
+  const route = useRouter();
 
   return (
     <div className="min-h-screen bg-[#fdf8f4]">
       {/* Header */}
-      <Navbar />
+      <Navbar>
+        <></>
+      </Navbar>
 
       {/* Hero Section */}
       <section className="px-6 py-8 md:px-10 md:py-12 flex ">
-        {connect && (
+        {connected && (
           <Card className="p-4 bg-transparent max-w-fit mx-16 rounded-lg">
             <div className="flex items-center gap-2 mb-4 flex-col">
               <h1 className="font-bold text-2xl font-atkinson">GVTBalance</h1>
@@ -95,12 +100,15 @@ export function TradingPage() {
                   className="opacity-30"
                 />
               </div>
-              <Button className="relative bg-transparent w-48 text-white my-12 border-2 border-white rounded-full z-20 hover:bg-white hover:text-black">
+              <Button
+                onClick={() => route.push("/trade/station")}
+                className="relative bg-transparent w-48 text-white my-12 border-2 border-white rounded-full z-20 hover:bg-white hover:text-black"
+              >
                 Find Stations Nearby
               </Button>
             </div>
           </div>
-          {!connect && (
+          {!connected && (
             <div className="m-10">
               <p className="text-4xl">
                 Welcome to GreenVolt Energy

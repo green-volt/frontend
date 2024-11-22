@@ -9,7 +9,7 @@ import {
   MoreVertical,
   Search,
 } from "lucide-react";
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +21,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "./ui/input";
 import Navbar from "./ui/navbar";
+import { useState } from "react";
 
 export function StationPage() {
   const [showMap, setShowMap] = useState(false);
@@ -272,7 +273,6 @@ export function StationPage() {
       </section>
 
       {/* Footer */}
-    
     </div>
   );
 }
