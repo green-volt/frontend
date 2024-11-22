@@ -11,9 +11,8 @@ import {
 } from "@/components/ui/accordion";
 import { Card } from "@/components/ui/card";
 import Navbar from "./ui/navbar";
-import { use, useEffect, useState } from "react";
+import { useState } from "react";
 import Footer from "./ui/footer";
-import { connect } from "http2";
 
 export function TradingPage() {
   const [connect, isConnect] = useState(false);
@@ -281,14 +280,14 @@ export function TradingPage() {
             </p>
             <p className="mb-4">
               Please read the terms carefully as they govern your use of
-              GreenVolt "Energy Trading" services.
+              GreenVolt &quot;Energy Trading&quot; services.
             </p>
             <ol className="list-decimal list-inside space-y-4">
               <li className="text-sm text-gray-600">
                 By approving any of the contracts on this page, you agree that
                 you have read, understood and accepted all the terms and
                 conditions contained in these Terms (as hereinafter referred to
-                as "these Terms").
+                as &quot;these Terms&quot;).
               </li>
               {/* Add more terms as needed */}
             </ol>
