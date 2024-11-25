@@ -1,26 +1,47 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { Search, ExternalLink, ChevronRight, MoreVertical } from "lucide-react";
+import Image from "next/image";
+import {
+  ChevronDown,
+  ChevronRight,
+  ExternalLink,
+  MoreVertical,
+  Search,
+} from "lucide-react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "./ui/input";
 import Navbar from "./ui/navbar";
-import Footer from "./ui/footer";
+import { useState } from "react";
 
-export function LandingPage() {
+export function StationPage() {
+  const [showMap, setShowMap] = useState(false);
+
+  const handleFindStations = () => {
+    setShowMap(true);
+  };
+
   return (
     <div className="min-h-screen bg-[#fdf8f4]">
       {/* Header */}
-      <Navbar />
+      <Navbar>
+        <div className="relative md:block">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+          <Input
+            placeholder="Add for information..."
+            className="pl-10 w-[200px] "
+          />
+        </div>
+      </Navbar>
 
       {/* Hero Section */}
       <section className="px-4 py-12 md:px-6 md:py-24">
@@ -38,10 +59,10 @@ export function LandingPage() {
                 <br />
                 the world of energy trading
               </h1>
-              <Button className="bg-green-800 text-white hover:bg-green-700">
+              {/* <Button className="bg-green-800 text-white hover:bg-green-700">
                 Learn More
-              </Button>
-              <div className="flex items-center gap-4">
+              </Button> */}
+              {/* <div className="flex items-center gap-4">
                 <Image
                   src="/placeholder.svg"
                   alt="Profile"
@@ -53,11 +74,11 @@ export function LandingPage() {
                   GreenVolt energy to begin roll at Austin facility in 2025,
                   confirmed by team.
                 </p>
-              </div>
+              </div> */}
             </div>
             <div className="relative h-[400px]">
               <Image
-                src="/placeholder.svg"
+                src="/static/station-bg.png"
                 alt="Electric Car Charging"
                 fill
                 className="object-contain"
@@ -75,7 +96,7 @@ export function LandingPage() {
             <div className="text-center">
               <div className="relative h-32 w-32 mx-auto mb-4">
                 <Image
-                  src="/placeholder.svg"
+                  src="/static/home-charging.png"
                   alt="Home Charging"
                   fill
                   className="object-contain"
@@ -86,7 +107,7 @@ export function LandingPage() {
             <div className="text-center">
               <div className="relative h-32 w-32 mx-auto mb-4 bg-green-800 rounded-full">
                 <Image
-                  src="/placeholder.svg"
+                  src="/static/charging-station.png"
                   alt="Charging Station"
                   fill
                   className="object-contain p-4"
@@ -97,7 +118,7 @@ export function LandingPage() {
             <div className="text-center">
               <div className="relative h-32 w-32 mx-auto mb-4">
                 <Image
-                  src="/placeholder.svg"
+                  src="/static/mobile-charging.png"
                   alt="Mobile Charging"
                   fill
                   className="object-contain"
@@ -111,6 +132,9 @@ export function LandingPage() {
 
       {/* Trading Cards */}
       <section className="px-4 py-12 md:px-6">
+        <Button className="bg-green-800 w-48 text-white hover:bg-green-700 my-4">
+          Find Stations Nearby
+        </Button>
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
@@ -136,7 +160,7 @@ export function LandingPage() {
                     </div>
                     <div className="relative h-24">
                       <Image
-                        src="/placeholder.svg"
+                        src="/static/charger.png"
                         alt="Charging Station"
                         fill
                         className="object-contain"
@@ -154,36 +178,43 @@ export function LandingPage() {
       </section>
 
       {/* Contact Form */}
-      <section className="px-4 py-12 md:px-6 bg-white">
+      <section className="px-4 py-12 md:px-6 ">
         <div className="mx-auto max-w-6xl">
-          <div className="grid gap-8 md:grid-cols-2">
-            <div>
-              <h2 className="text-3xl font-bold mb-4">
-                Want to put up your station here on Greenvolt. Fill the form and
-                we will be in touch.
-              </h2>
-              <form className="space-y-4">
-                <Input placeholder="Name" />
-                <Input placeholder="Email" />
-                <Input placeholder="Phone" />
-                <Input placeholder="Last Name" />
-                <div className="flex gap-4">
-                  <Button className="bg-green-800 text-white hover:bg-green-700">
-                    Submit
-                  </Button>
-                  <Button variant="outline">Cancel</Button>
+          <div className="flex flex-row flex-wrap">
+            <h2 className="text-3xl font-bold mb-4 max-w-xl px-10">
+              Want to put up your station here on Greenvolt. Fill the form and
+              we will be in touch.
+            </h2>
+            <form className="space-y-4 bg-white p-4 rounded-3xl px-10 mx-10">
+              <h1 className="font-bold">Submit Details</h1>
+              <div className="flex flex-row flex-wrap space-x-2">
+                <div className="space-y-4">
+                  <Input placeholder="Name" />
+                  <Input placeholder="Email" />
+                  <Input placeholder="Phone" />
                 </div>
-              </form>
-            </div>
-            <div className="relative h-[400px] hidden md:block">
+                <div className="space-y-4">
+                  <Input placeholder="Last Name" />
+                  <Input placeholder="Company" />
+                  <Input placeholder="Address" />
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <Button className="bg-green-800 text-white hover:bg-green-700">
+                  Submit
+                </Button>
+                <Button variant="outline">Cancel</Button>
+              </div>
+            </form>
+          </div>
+          {/* <div className="relative h-[400px] hidden md:block">
               <Image
                 src="/placeholder.svg"
                 alt="Contact Illustration"
                 fill
                 className="object-contain"
               />
-            </div>
-          </div>
+            </div> */}
         </div>
       </section>
 
@@ -242,7 +273,6 @@ export function LandingPage() {
       </section>
 
       {/* Footer */}
-      <Footer />
     </div>
   );
 }
