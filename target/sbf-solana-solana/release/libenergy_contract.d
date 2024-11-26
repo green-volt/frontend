@@ -1,0 +1,1 @@
+/mnt/c/Users/hp/Desktop/bootcamp/smart-contract/energy-contract/target/sbf-solana-solana/release/libenergy_contract.rlib: /mnt/c/Users/hp/Desktop/bootcamp/smart-contract/energy-contract/programs/energy-contract/src/lib.rs

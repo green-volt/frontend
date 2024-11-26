@@ -3,8 +3,11 @@ import localFont from "next/font/local";
 import { Atkinson_Hyperlegible } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
-
 import ToastProvider from "./providers/ToastProvider";
+import { AnchorWallet, useConnection, useWallet } from "@jup-ag/wallet-adapter";
+import { AnchorProvider } from "@coral-xyz/anchor";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryProvider } from "./react-query-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,9 +40,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${atkinson.variable} ${geistMono.variable} antialiased`}
       >
-        <Providers>
-          <ToastProvider>{children}</ToastProvider>
-        </Providers>
+        <ReactQueryProvider>
+          <Providers>
+            <ToastProvider>{children}</ToastProvider>
+          </Providers>
+        </ReactQueryProvider>
       </body>
     </html>
   );

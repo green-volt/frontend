@@ -15,11 +15,22 @@ import { useState } from "react";
 import Footer from "./ui/footer";
 import { useRouter } from "next/navigation";
 import { useWallet } from "@jup-ag/wallet-adapter";
+import { useEnergyProgram } from "./energy/energy-data-access";
+import { PublicKey } from "@solana/web3.js";
 
 export function TradingPage() {
   const { connected } = useWallet();
   const [buy, setBuy] = useState(true);
   const route = useRouter();
+  const {
+    program,
+    trades,
+    createEnergyTrade,
+    confirmEnergyDelivery,
+    confirmEnergyReceipt,
+    cancelTrade,
+    programId,
+  } = useEnergyProgram();
 
   return (
     <div className="min-h-screen bg-[#fdf8f4]">
@@ -186,7 +197,19 @@ export function TradingPage() {
                       View contract <ExternalLink className="h-4 w-4 ml-1" />
                     </Button>
                   </div>
-                  <Button className="w-full bg-green-800 text-white hover:bg-green-700">
+                  <Button
+                    onClick={() => {
+                      console.log("Jo");
+                      createEnergyTrade.mutateAsync({
+                        tradeId: "1",
+                        description: "description",
+                        paymentAmount: 200,
+                        energyAmount: 200,
+                        seller: PublicKey.default,
+                      });
+                    }}
+                    className="w-full bg-green-800 text-white hover:bg-green-700"
+                  >
                     Approve Buy
                   </Button>
                   <p className="mt-2 text-xs text-center text-gray-500">
