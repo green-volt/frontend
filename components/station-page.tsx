@@ -10,7 +10,6 @@ import {
   Search,
 } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-
 import { Button } from "@/components/ui/button";
 import {
   Accordion,

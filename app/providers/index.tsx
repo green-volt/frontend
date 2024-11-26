@@ -10,7 +10,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         wallets={[]}
         config={{
           autoConnect: true,
-          env: "mainnet-beta",
+          env: "testnet",
           metadata: {
             name: "UnifiedWallet",
             description: "UnifiedWallet",
