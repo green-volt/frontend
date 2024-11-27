@@ -1,5 +1,10 @@
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
-import ReactApexChart from "react-apexcharts";
+
+// Dynamically import ReactApexChart with SSR disabled
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 
 const ChartComponent: React.FC = () => {
   const [state] = useState({
@@ -52,7 +57,6 @@ const ChartComponent: React.FC = () => {
           height={200}
         />
       </div>
-      <div id="html-dist"></div>
     </div>
   );
 };
