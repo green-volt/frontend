@@ -22,15 +22,9 @@ export function TradingPage() {
   const { connected } = useWallet();
   const [buy, setBuy] = useState(true);
   const route = useRouter();
-  const {
-    program,
-    trades,
-    createEnergyTrade,
-    confirmEnergyDelivery,
-    confirmEnergyReceipt,
-    cancelTrade,
-    programId,
-  } = useEnergyProgram();
+  const { trades, createEnergyTrade } = useEnergyProgram();
+
+  console.log(trades);
 
   return (
     <div className="min-h-screen bg-[#fdf8f4]">

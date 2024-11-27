@@ -42,40 +42,49 @@ export function useEnergyProgram() {
       energyAmount,
       seller,
     }) => {
-      if (!publicKey) throw new Error("Wallet not connected");
+      if (!publicKey) {
+        toast.error("Please connect your wallet to proceed.");
+        throw new Error("Wallet not connected");
+      }
 
-      // Generate a new keypair for the energy trade account
       const energyTradeKeypair = Keypair.generate();
-
-      // Derive escrow account
       const [escrowAccount] = PublicKey.findProgramAddressSync(
         [Buffer.from("escrow"), energyTradeKeypair.publicKey.toBuffer()],
         programId
       );
 
-      return program.methods
-        .createEnergyTrade(
-          tradeId,
-          description,
-          new BN(paymentAmount),
-          new BN(energyAmount)
-        )
-        .accounts({
-          energyTrade: energyTradeKeypair.publicKey,
-          buyer: publicKey,
-          seller: seller,
-          escrowAccount: escrowAccount,
-        })
-        .signers([energyTradeKeypair])
-        .rpc();
+      console.log("Transaction details:", {
+        energyTrade: energyTradeKeypair.publicKey.toBase58(),
+        buyer: publicKey.toBase58(),
+        seller: seller.toBase58(),
+        escrowAccount: escrowAccount.toBase58(),
+      });
+
+      try {
+        return await program.methods
+          .createEnergyTrade(
+            tradeId,
+            description,
+            new BN(paymentAmount),
+            new BN(energyAmount)
+          )
+          .rpc();
+      } catch (error) {
+        console.error("Transaction error:", error);
+        throw error; // Propagate to onError
+      }
     },
     onSuccess: (signature) => {
-      console.log(signature);
+      console.log("Transaction signature:", signature);
       toast.success("Energy trade created successfully");
       trades.refetch();
     },
     onError: (error) => {
-      toast.error(`Error creating energy trade: ${error.message}`);
+      if (error.message.includes("Approval Denied")) {
+        toast.error("Transaction rejected. Please try again.");
+      } else {
+        toast.error(`Error creating energy trade: ${error.message}`);
+      }
     },
   });
 
