@@ -16,16 +16,16 @@ const ChartComponent: React.FC = () => {
     options: {
       chart: {
         height: 350,
-        type: "area",
+        type: "area" as const,
       },
       dataLabels: {
         enabled: false,
       },
       stroke: {
-        curve: "smooth",
+        curve: "smooth" as const,
       },
       xaxis: {
-        type: "datetime",
+        type: "datetime" as const,
         categories: [
           "2018-09-19T00:00:00.000Z",
           "2018-09-19T01:30:00.000Z",
