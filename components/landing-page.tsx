@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { Search, ExternalLink, ChevronRight, MoreVertical } from "lucide-react";
+import { ChevronRight, MoreVertical } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,7 +19,9 @@ export function LandingPage() {
   return (
     <div className="min-h-screen bg-[#fdf8f4]">
       {/* Header */}
-      <Navbar />
+      <Navbar>
+        <></>
+      </Navbar>
 
       {/* Hero Section */}
       <section className="px-4 py-12 md:px-6 md:py-24">
@@ -227,7 +228,7 @@ export function LandingPage() {
             </p>
             <p className="mb-4">
               Please read the terms carefully as they govern your use of
-              GreenVolt "Energy Trading" services.
+              GreenVolt &quot;Energy Trading&quot; services.
             </p>
             <ol className="list-decimal list-inside space-y-4">
               <li className="text-sm text-gray-600">

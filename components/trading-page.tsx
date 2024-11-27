@@ -1,7 +1,6 @@
 "use client";
-import Link from "next/link";
 import Image from "next/image";
-import { ChevronDown, ExternalLink, Flag } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -22,15 +21,7 @@ export function TradingPage() {
   const { connected } = useWallet();
   const [buy, setBuy] = useState(true);
   const route = useRouter();
-  const {
-    program,
-    trades,
-    createEnergyTrade,
-    confirmEnergyDelivery,
-    confirmEnergyReceipt,
-    cancelTrade,
-    programId,
-  } = useEnergyProgram();
+  const { createEnergyTrade } = useEnergyProgram();
 
   return (
     <div className="min-h-screen bg-[#fdf8f4]">

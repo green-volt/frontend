@@ -4,9 +4,6 @@ import { Atkinson_Hyperlegible } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import ToastProvider from "./providers/ToastProvider";
-import { AnchorWallet, useConnection, useWallet } from "@jup-ag/wallet-adapter";
-import { AnchorProvider } from "@coral-xyz/anchor";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryProvider } from "./react-query-provider";
 
 const geistSans = localFont({

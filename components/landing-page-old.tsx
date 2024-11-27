@@ -1,20 +1,22 @@
 "use client";
 
-import Link from "next/link";
-import { Menu, Anchor } from "lucide-react";
+import { Anchor } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+
 import Navbar from "./ui/navbar";
 import Footer from "./ui/footer";
 import Image from "next/image";
+import { useRouter } from "next/router";
 // import { useRouter } from "next/router";
 
 export function LandingPage() {
-  // const route = useRouter();
+  const route = useRouter();
   return (
     <div className="min-h-screen bg-[#FAF7F2]">
       {/* Navigation */}
-      <Navbar />
+      <Navbar>
+        <></>
+      </Navbar>
 
       {/* Hero Section */}
       <section className="px-16 pt-12 pb-24">
@@ -212,8 +214,9 @@ export function LandingPage() {
                   </h2>
                   <p className="text-gray-600 mb-6">
                     Explore our platform and discover how you can participate in
-                    the energy revolution, whether you're a producer, consumer,
-                    or investor, and contribute to a more sustainable future
+                    the energy revolution, whether you&apos;re a producer,
+                    consumer, or investor, and contribute to a more sustainable
+                    future
                   </p>
                   <Button variant="outline" className="rounded-full">
                     Learn More
@@ -228,65 +231,5 @@ export function LandingPage() {
       {/* Footer */}
       <Footer />
     </div>
-  );
-}
-
-function WindmillIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
-      <path d="M12 3v18M9 6l6 6M15 6L9 12M6 9h12M9 18l6-6M15 18l-6-6" />
-    </svg>
-  );
-}
-
-function HeroIllustration(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg {...props} viewBox="0 0 400 300" fill="none">
-      <path d="M0 0h400v300H0z" fill="#E8F3E8" />
-      <circle cx="300" cy="100" r="60" fill="#FFA07A" fillOpacity="0.5" />
-      <path d="M50 250c100-80 200-80 300 0" fill="#0B6E4F" />
-      <path d="M150 150l40-60 40 60h-80z" fill="#0B6E4F" />
-      <path d="M250 180l30-45 30 45h-60z" fill="#0B6E4F" />
-      <path d="M350 160l20-30 20 30h-40z" fill="#0B6E4F" />
-    </svg>
-  );
-}
-
-function GridIllustration(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg {...props} viewBox="0 0 400 200" fill="none">
-      <path d="M50 100h300M200 50v100" stroke="#0B6E4F" strokeWidth="2" />
-      <circle cx="200" cy="100" r="20" fill="#0B6E4F" />
-      <circle cx="100" cy="100" r="20" fill="#0B6E4F" />
-      <circle cx="300" cy="100" r="20" fill="#0B6E4F" />
-      <rect x="180" y="80" width="40" height="40" rx="4" fill="#0B6E4F" />
-    </svg>
-  );
-}
-
-function SecurityIllustration(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg {...props} viewBox="0 0 400 200" fill="none">
-      <rect x="100" y="50" width="200" height="100" rx="8" fill="#E8F3E8" />
-      <circle cx="200" cy="100" r="30" fill="#0B6E4F" />
-      <path d="M185 100a15 15 0 0130 0" stroke="white" strokeWidth="2" />
-      <circle cx="200" cy="85" r="5" fill="white" />
-    </svg>
-  );
-}
-
-function PlantsIllustration(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg {...props} viewBox="0 0 400 200" fill="none">
-      <path d="M150 180c0-40 30-70 70-70s70 30 70 70" fill="#E8F3E8" />
-      <path d="M180 120s-20-40 0-80 40-40 40 0-20 80-40 80z" fill="#0B6E4F" />
-      <path d="M220 140s-15-30 0-60 30-30 30 0-15 60-30 60z" fill="#0B6E4F" />
-    </svg>
   );
 }
