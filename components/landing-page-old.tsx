@@ -1,8 +1,6 @@
 "use client";
-
 import { Anchor } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 import Navbar from "./ui/navbar";
 import Footer from "./ui/footer";
 import Image from "next/image";

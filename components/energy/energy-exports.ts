@@ -2,7 +2,7 @@
 import { AnchorProvider, Program } from "@coral-xyz/anchor";
 import { Cluster, PublicKey } from "@solana/web3.js";
 import GreenvoltIDL from "../../target/idl/greenvolt.json";
-import type { Greenvolt } from "../../target/types/greenvolt";
+import type { Greenvolt } from "../../target/types/greenvolt.ts";
 
 // Re-export the generated IDL and type
 export { Greenvolt, GreenvoltIDL };

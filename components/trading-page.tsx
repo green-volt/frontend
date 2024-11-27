@@ -16,12 +16,38 @@ import { useRouter } from "next/navigation";
 import { useWallet } from "@jup-ag/wallet-adapter";
 import { useEnergyProgram } from "./energy/energy-data-access";
 import { PublicKey } from "@solana/web3.js";
+import ChartComponent from "./ui/chart";
 
 export function TradingPage() {
   const { connected } = useWallet();
   const [buy, setBuy] = useState(true);
   const route = useRouter();
-  const { createEnergyTrade } = useEnergyProgram();
+  const { trades, createEnergyTrade } = useEnergyProgram();
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
+
+  const rates = [
+    { symbol: "/static/bitcoin.png", name: "Bitcoin", value: 4319.26 },
+    { symbol: "/static/monero.png", name: "Monero", value: 57.84 },
+    { symbol: "/static/bitShares.png", name: "BitShares", value: 0.169 },
+    { symbol: "/static/dash.png", name: "Dash", value: 172.19 },
+    { symbol: "/static/litecoin.png", name: "Litecoin", value: 46.5 },
+  ];
+  const dailySales = [
+    { name: "MO", value: 1 },
+    { name: "TU", value: 170 },
+    { name: "WE", value: 62 },
+    { name: "TH", value: 62 },
+    { name: "FR", value: 62 },
+    { name: "SA", value: 62 },
+    { name: "SU", value: 62 },
+  ];
+
+  const getProgressBarHeight = (value) => {
+    const maxValue = Math.max(...dailySales.map((item) => item.value));
+    return `${(value / maxValue) * 100}%`;
+  };
+
+  console.log(trades);
 
   return (
     <div className="min-h-screen bg-[#fdf8f4]">
@@ -31,58 +57,128 @@ export function TradingPage() {
       </Navbar>
 
       {/* Hero Section */}
-      <section className="px-6 py-8 md:px-10 md:py-12 flex ">
+      <section className=" flex flex-wrap max-w-fit  justify-center">
         {connected && (
-          <Card className="p-4 bg-transparent max-w-fit mx-16 rounded-lg">
-            <div className="flex items-center gap-2 mb-4 flex-col">
-              <h1 className="font-bold text-2xl font-atkinson">GVTBalance</h1>
-              <span className="text-2xl font-atkinson">
-                $ <span className="font-bold">1743</span>
-              </span>
-            </div>
-            <div className="flex items-center gap-4 flex-wrap max-w-60">
-              {/* Input with dropdown */}
-              <div className="flex items-center border border-gray-300 rounded-md px-2">
-                <input
-                  type="number"
-                  className="w-16 p-2 outline-none bg-transparent"
-                  defaultValue="1"
-                />
-                <select className="text-gray-500 text-sm p-2 bg-transparent outline-none">
-                  <option value="GVT">GVT</option>
-                </select>
+          <>
+            <Card className="p-8 bg-transparent max-w-fit m-5 rounded-lg">
+              <div className="flex items-center gap-2 mb-4 flex-col">
+                <h1 className="font-bold text-2xl font-atkinson">GVTBalance</h1>
+                <span className="text-2xl font-atkinson">
+                  $ <span className="font-bold">1743</span>
+                </span>
               </div>
+              <div className="flex items-center gap-4 flex-wrap max-w-60">
+                {/* Input with dropdown */}
+                <div className="flex items-center border border-gray-300 rounded-md px-2">
+                  <input
+                    type="number"
+                    className="w-16 p-2 outline-none bg-transparent"
+                    defaultValue="1"
+                  />
+                  <select className="text-gray-500 text-sm p-2 bg-transparent outline-none">
+                    <option value="GVT">GVT</option>
+                  </select>
+                </div>
 
-              {/* Approximate value with dropdown */}
-              <div className="flex items-center border border-gray-300 rounded-md px-2">
-                <span className="px-2 text-gray-500">≈</span>
-                <input
-                  type="text"
-                  className="w-24 p-2 outline-none"
-                  defaultValue="196.8"
-                  disabled
-                />
-                <select className="text-gray-500 text-sm p-2 bg-transparent outline-none">
-                  <option value="USD">USD</option>
-                </select>
-              </div>
+                {/* Approximate value with dropdown */}
+                <div className="flex items-center border border-gray-300 rounded-md px-2">
+                  <span className="px-2 text-gray-500">≈</span>
+                  <input
+                    type="text"
+                    className="w-24 p-2 outline-none"
+                    defaultValue="196.8"
+                    disabled
+                  />
+                  <select className="text-gray-500 text-sm p-2 bg-transparent outline-none">
+                    <option value="USD">USD</option>
+                  </select>
+                </div>
 
-              {/* Buttons */}
-              <div>
-                <button className="bg-[#0B6B41] text-white px-4 py-2 rounded-full hover:bg-green-700">
-                  Buy
-                </button>
-                <button className="border border-gray-300 px-4 py-2 rounded-full text-gray-500 hover:bg-gray-200">
-                  Sell
-                </button>
+                {/* Buttons */}
+                <div>
+                  <button className="bg-[#0B6B41] text-white px-4 py-2 rounded-full hover:bg-green-700">
+                    Buy
+                  </button>
+                  <button className="border border-gray-300 px-4 py-2 rounded-full text-gray-500 hover:bg-gray-200">
+                    Sell
+                  </button>
+                </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+
+            <Card className="p-8 bg-transparent max-w-fit m-5 rounded-lg">
+              <h1 className=" text-[#d1d5d7] font-bold text-2xl font-atkinson">
+                Energy Live Stats
+              </h1>
+              <h1 className="font-bold text-2xl font-atkinson">
+                Supply and Demand
+              </h1>
+
+              <ChartComponent />
+            </Card>
+
+            <Card className="p-8 bg-transparent max-w-fit m-5 rounded-lg ">
+              <h2 className="font-bold text-xl pb-4">
+                Rates <span className="text-[#d1d5d7]">in USD </span>
+              </h2>
+              <div className="grid grid-cols-1 gap-4">
+                {rates.map((rate, index) => (
+                  <div key={index} className="grid grid-flow-col gap-3">
+                    <div className="grid grid-flow-col gap-16 ">
+                      <div className="grid grid-flow-col gap-4">
+                        <Image
+                          className="self-center"
+                          width={16}
+                          height={16}
+                          src={rate.symbol}
+                          alt=""
+                        />
+                        <span>{rate.name}</span>
+                      </div>
+                      <span>${rate.value.toFixed(2)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+            <Card className="p-8 bg-[#D9D9D9] max-w-fit m-5 rounded-lg ">
+              <h2 className="font-bold text-xl pb-4 text-[#414D55] font-atkinson ">
+                Your Daily Sales
+              </h2>
+
+              <div className="grid grid-cols-7 gap-4 h-40">
+                {dailySales.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-col items-center space-y-2"
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(-1)}
+                  >
+                    <div className="h-full w-2 bg-gray-200 rounded-full relative mx-4">
+                      <div
+                        className="bg-green-800 absolute bottom-0 w-full rounded-full"
+                        style={{ height: getProgressBarHeight(item.value) }}
+                      >
+                        {hoveredIndex === index && (
+                          <span className="absolute  text-black rounded-sm font-bold bg-white text-xs py-2 px-1">
+                            {item.value}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <span className="text-[#414D55] text-xs font-atkinson">
+                      {item.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </>
         )}
 
-        <div className="flex">
-          <div className="rounded-lg bg-green-800 p-6 overflow-hidden flex flex-col max-w-60 relative">
-            <div>
+        <div className="flex m-5">
+          <div className="rounded-lg bg-green-800  overflow-hidden flex flex-col max-w-60 relative p-5">
+            <div className="">
               <h1 className="text-2xl font-bold text-white z-10 mb-4">
                 UNLOCK
                 <br />
@@ -93,13 +189,12 @@ export function TradingPage() {
             </div>
             <div className="relative">
               {/* Set a fixed height for the image container */}
-              <div className="absolute inset-0">
+              <div className="absolute inset-0 mr-[-50]">
                 <Image
                   src="/static/ev-car-banner.png"
                   alt="ev"
                   layout="fill"
                   objectFit="cover"
-                  className="opacity-30"
                 />
               </div>
               <Button
@@ -126,7 +221,7 @@ export function TradingPage() {
       </section>
 
       {/* Trading Cards Grid */}
-      <section className="px-4 py-8 md:px-6 md:py-12">
+      <section className="px-4 py-4 md:px-6 ">
         <div className="bg-[#C5CECA] w-48 text-black my-12 border-2 border-black rounded-lg z-100 cursor-pointer flex p-2 justify-evenly">
           <Button
             onClick={() => setBuy(true)}
