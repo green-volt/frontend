@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import { ChevronRight, MoreVertical, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
