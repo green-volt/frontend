@@ -212,8 +212,9 @@ export default function Home() {
                   </h2>
                   <p className="text-gray-600 mb-6">
                     Explore our platform and discover how you can participate in
-                    the energy revolution, whether you're a producer, consumer,
-                    or investor, and contribute to a more sustainable future
+                    the energy revolution, whether you&apos;re a producer,
+                    consumer, or investor, and contribute to a more sustainable
+                    future
                   </p>
                   <Button variant="outline" className="rounded-full">
                     Learn More

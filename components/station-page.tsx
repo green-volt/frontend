@@ -1,15 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import {
-  ChevronDown,
-  ChevronRight,
-  ExternalLink,
-  MoreVertical,
-  Search,
-} from "lucide-react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { ChevronRight, MoreVertical, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -20,15 +12,8 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "./ui/input";
 import Navbar from "./ui/navbar";
-import { useState } from "react";
 
 export function StationPage() {
-  const [showMap, setShowMap] = useState(false);
-
-  const handleFindStations = () => {
-    setShowMap(true);
-  };
-
   return (
     <div className="min-h-screen bg-[#fdf8f4]">
       {/* Header */}
@@ -257,7 +242,7 @@ export function StationPage() {
             </p>
             <p className="mb-4">
               Please read the terms carefully as they govern your use of
-              GreenVolt "Energy Trading" services.
+              GreenVolt &quot;Energy Trading&quot; services.
             </p>
             <ol className="list-decimal list-inside space-y-4">
               <li className="text-sm text-gray-600">

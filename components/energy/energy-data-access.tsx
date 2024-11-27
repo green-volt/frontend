@@ -83,7 +83,7 @@ export function useEnergyProgram() {
   const confirmEnergyDelivery = useMutation<string, Error, ConfirmDeliveryArgs>(
     {
       mutationKey: ["energyTrade", "confirm-delivery", "testnet"],
-      mutationFn: async ({ energyTradeAccount }) => {
+      mutationFn: async () => {
         if (!publicKey) throw new Error("Wallet not connected");
 
         return program.methods
@@ -107,7 +107,7 @@ export function useEnergyProgram() {
   // Confirm Energy Receipt
   const confirmEnergyReceipt = useMutation<string, Error, ConfirmDeliveryArgs>({
     mutationKey: ["energyTrade", "confirm-receipt", "testnet"],
-    mutationFn: async ({ energyTradeAccount }) => {
+    mutationFn: async () => {
       if (!publicKey) throw new Error("Wallet not connected");
 
       return program.methods
@@ -119,6 +119,7 @@ export function useEnergyProgram() {
         .rpc();
     },
     onSuccess: (signature) => {
+      console.log(signature);
       toast.success("Energy receipt confirmed");
       trades.refetch();
     },
@@ -130,7 +131,7 @@ export function useEnergyProgram() {
   // Cancel Trade
   const cancelTrade = useMutation<string, Error, ConfirmDeliveryArgs>({
     mutationKey: ["energyTrade", "cancel", "testnet"],
-    mutationFn: async ({ energyTradeAccount }) => {
+    mutationFn: async () => {
       if (!publicKey) throw new Error("Wallet not connected");
 
       return program.methods
@@ -143,6 +144,7 @@ export function useEnergyProgram() {
         .rpc();
     },
     onSuccess: (signature) => {
+      console.log(signature);
       toast.success("Trade cancelled successfully");
       trades.refetch();
     },

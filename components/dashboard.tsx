@@ -1,9 +1,16 @@
-'use client'
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
-import { Line } from "react-chartjs-2"
-import { Bell, ChevronDown, ExternalLink, Info, MoreVertical, RefreshCcw, Wallet } from 'lucide-react'
+import Link from "next/link";
+import Image from "next/image";
+import { Line } from "react-chartjs-2";
+import {
+  Bell,
+  ExternalLink,
+  Info,
+  MoreVertical,
+  RefreshCcw,
+  Wallet,
+} from "lucide-react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,18 +21,17 @@ import {
   Tooltip,
   Filler,
   Legend,
-} from 'chart.js'
+} from "chart.js";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 
 // Register ChartJS components
 ChartJS.register(
@@ -37,43 +43,43 @@ ChartJS.register(
   Tooltip,
   Filler,
   Legend
-)
+);
 
 export function Dashboard() {
   // Chart data for Supply and Demand
   const supplyDemandData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
         fill: true,
-        label: 'Supply',
+        label: "Supply",
         data: [65, 59, 80, 81, 56, 55],
-        borderColor: 'rgb(53, 162, 135)',
-        backgroundColor: 'rgba(53, 162, 135, 0.5)',
+        borderColor: "rgb(53, 162, 135)",
+        backgroundColor: "rgba(53, 162, 135, 0.5)",
       },
       {
         fill: true,
-        label: 'Demand',
+        label: "Demand",
         data: [28, 48, 40, 19, 86, 27],
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
     ],
-  }
+  };
 
   // Chart data for Daily Sales
   const dailySalesData = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
     datasets: [
       {
-        label: 'Sales',
+        label: "Sales",
         data: [12, 19, 3, 5, 2],
-        backgroundColor: 'rgba(53, 162, 135, 0.5)',
-        borderColor: 'rgb(53, 162, 135)',
+        backgroundColor: "rgba(53, 162, 135, 0.5)",
+        borderColor: "rgb(53, 162, 135)",
         borderWidth: 1,
       },
     ],
-  }
+  };
 
   return (
     <div className="min-h-screen bg-[#fdf8f4]">
@@ -202,7 +208,7 @@ export function Dashboard() {
                     <div className="h-10 w-10 rounded-full bg-gray-200" />
                     <div>
                       <p className="text-sm font-medium">
-                        {i % 2 === 0 ? 'USERREgpT78' : 'feedui'}
+                        {i % 2 === 0 ? "USERREgpT78" : "feedui"}
                       </p>
                       <div className="flex items-center gap-1">
                         <span className="text-xs text-gray-500">Total Bid</span>
@@ -222,18 +228,22 @@ export function Dashboard() {
                       <div className="h-full w-1/2 rounded bg-green-800" />
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-sm text-gray-500">Total per user</span>
+                      <span className="text-sm text-gray-500">
+                        Total per user
+                      </span>
                       <span className="text-sm">2500 KWh</span>
                     </div>
                   </div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm text-red-500">ProofsNFT 15 days</span>
+                    <span className="text-sm text-red-500">
+                      ProofsNFT 15 days
+                    </span>
                     <Button variant="link" size="sm" className="text-green-800">
                       View contract <ExternalLink className="h-4 w-4 ml-1" />
                     </Button>
                   </div>
                   <Button className="w-full bg-red-500 text-white hover:bg-red-600">
-                    {i % 2 === 0 ? 'Approve Buy' : 'Harvest'}
+                    {i % 2 === 0 ? "Approve Buy" : "Harvest"}
                   </Button>
                   <p className="mt-2 text-xs text-center text-gray-500">
                     30% unlocking fee if withdrawn within 30d
@@ -275,13 +285,14 @@ export function Dashboard() {
               Revised: December 8, 2023
             </p>
             <p className="mb-4">
-              Please read the terms carefully as they govern
-              your use of GreenVolt "Energy Trading" services.
+              Please read the terms carefully as they govern your use of
+              GreenVolt &quot;Energy Trading&quot; services.
             </p>
             <ol className="list-decimal list-inside space-y-4">
               <li className="text-sm text-gray-600">
-                By approving any of the contracts on this page, you agree that you have read, understood
-                and accepted all the terms and conditions contained in these Terms.
+                By approving any of the contracts on this page, you agree that
+                you have read, understood and accepted all the terms and
+                conditions contained in these Terms.
               </li>
               {/* Additional terms would go here */}
             </ol>
@@ -310,31 +321,71 @@ export function Dashboard() {
             <div>
               <h3 className="font-semibold mb-4">Resources</h3>
               <ul className="space-y-2">
-                <li><Link href="#" className="text-sm text-gray-500">Blog</Link></li>
-                <li><Link href="#" className="text-sm text-gray-500">Career</Link></li>
-                <li><Link href="#" className="text-sm text-gray-500">Support</Link></li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Blog
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Career
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Support
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold mb-4">Company</h3>
               <ul className="space-y-2">
-                <li><Link href="#" className="text-sm text-gray-500">About</Link></li>
-                <li><Link href="#" className="text-sm text-gray-500">Team</Link></li>
-                <li><Link href="#" className="text-sm text-gray-500">Contact</Link></li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Team
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Contact
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold mb-4">Connect</h3>
               <ul className="space-y-2">
-                <li><Link href="#" className="text-sm text-gray-500">Twitter</Link></li>
-                <li><Link href="#" className="text-sm text-gray-500">Facebook</Link></li>
-                <li><Link href="#" className="text-sm text-gray-500">LinkedIn</Link></li>
-                <li><Link href="#" className="text-sm text-gray-500">Instagram</Link></li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Twitter
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Facebook
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    LinkedIn
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-sm text-gray-500">
+                    Instagram
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
         </div>
       </footer>
     </div>
-  )
+  );
 }
