@@ -23,6 +23,8 @@ export function TradingPage() {
   const [buy, setBuy] = useState(true);
   const route = useRouter();
   const { trades, createEnergyTrade } = useEnergyProgram();
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
+
   const rates = [
     { symbol: "/static/bitcoin.png", name: "Bitcoin", value: 4319.26 },
     { symbol: "/static/monero.png", name: "Monero", value: 57.84 },
@@ -30,6 +32,20 @@ export function TradingPage() {
     { symbol: "/static/dash.png", name: "Dash", value: 172.19 },
     { symbol: "/static/litecoin.png", name: "Litecoin", value: 46.5 },
   ];
+  const dailySales = [
+    { name: "MO", value: 1 },
+    { name: "TU", value: 170 },
+    { name: "WE", value: 62 },
+    { name: "TH", value: 62 },
+    { name: "FR", value: 62 },
+    { name: "SA", value: 62 },
+    { name: "SU", value: 62 },
+  ];
+
+  const getProgressBarHeight = (value) => {
+    const maxValue = Math.max(...dailySales.map((item) => item.value));
+    return `${(value / maxValue) * 100}%`;
+  };
 
   console.log(trades);
 
@@ -41,10 +57,10 @@ export function TradingPage() {
       </Navbar>
 
       {/* Hero Section */}
-      <section className="px-6 py-8 md:px-10 md:py-12 flex flex-wrap max-w-fit  justify-center">
+      <section className=" flex flex-wrap max-w-fit  justify-center">
         {connected && (
           <>
-            <Card className="p-8 bg-transparent max-w-fit mr-8 rounded-lg">
+            <Card className="p-8 bg-transparent max-w-fit m-5 rounded-lg">
               <div className="flex items-center gap-2 mb-4 flex-col">
                 <h1 className="font-bold text-2xl font-atkinson">GVTBalance</h1>
                 <span className="text-2xl font-atkinson">
@@ -90,7 +106,7 @@ export function TradingPage() {
               </div>
             </Card>
 
-            <Card className="p-8 bg-transparent max-w-fit mr-8 rounded-lg">
+            <Card className="p-8 bg-transparent max-w-fit m-5 rounded-lg">
               <h1 className=" text-[#d1d5d7] font-bold text-2xl font-atkinson">
                 Energy Live Stats
               </h1>
@@ -101,7 +117,7 @@ export function TradingPage() {
               <ChartComponent />
             </Card>
 
-            <Card className="p-8 bg-transparent max-w-fit mr-16 rounded-lg ">
+            <Card className="p-8 bg-transparent max-w-fit m-5 rounded-lg ">
               <h2 className="font-bold text-xl pb-4">
                 Rates <span className="text-[#d1d5d7]">in USD </span>
               </h2>
@@ -125,12 +141,44 @@ export function TradingPage() {
                 ))}
               </div>
             </Card>
+            <Card className="p-8 bg-[#D9D9D9] max-w-fit m-5 rounded-lg ">
+              <h2 className="font-bold text-xl pb-4 text-[#414D55] font-atkinson ">
+                Your Daily Sales
+              </h2>
+
+              <div className="grid grid-cols-7 gap-4 h-40">
+                {dailySales.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-col items-center space-y-2"
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(-1)}
+                  >
+                    <div className="h-full w-2 bg-gray-200 rounded-full relative mx-4">
+                      <div
+                        className="bg-green-800 absolute bottom-0 w-full rounded-full"
+                        style={{ height: getProgressBarHeight(item.value) }}
+                      >
+                        {hoveredIndex === index && (
+                          <span className="absolute  text-black rounded-sm font-bold bg-white text-xs py-2 px-1">
+                            {item.value}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <span className="text-[#414D55] text-xs font-atkinson">
+                      {item.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </Card>
           </>
         )}
 
-        <div className="flex m-8">
-          <div className="rounded-lg bg-green-800 p-6 overflow-hidden flex flex-col max-w-60 relative">
-            <div>
+        <div className="flex m-5">
+          <div className="rounded-lg bg-green-800  overflow-hidden flex flex-col max-w-60 relative p-5">
+            <div className="">
               <h1 className="text-2xl font-bold text-white z-10 mb-4">
                 UNLOCK
                 <br />
@@ -141,13 +189,12 @@ export function TradingPage() {
             </div>
             <div className="relative">
               {/* Set a fixed height for the image container */}
-              <div className="absolute inset-0">
+              <div className="absolute inset-0 mr-[-50]">
                 <Image
                   src="/static/ev-car-banner.png"
                   alt="ev"
                   layout="fill"
                   objectFit="cover"
-                  className="opacity-30"
                 />
               </div>
               <Button
@@ -174,7 +221,7 @@ export function TradingPage() {
       </section>
 
       {/* Trading Cards Grid */}
-      <section className="px-4 py-8 md:px-6 md:py-12">
+      <section className="px-4 py-4 md:px-6 ">
         <div className="bg-[#C5CECA] w-48 text-black my-12 border-2 border-black rounded-lg z-100 cursor-pointer flex p-2 justify-evenly">
           <Button
             onClick={() => setBuy(true)}
