@@ -42,7 +42,7 @@ export function TradingPage() {
     { name: "SU", value: 62 },
   ];
 
-  const getProgressBarHeight = (value) => {
+  const getProgressBarHeight = (value: number) => {
     const maxValue = Math.max(...dailySales.map((item) => item.value));
     return `${(value / maxValue) * 100}%`;
   };
