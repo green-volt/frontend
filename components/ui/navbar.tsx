@@ -1,9 +1,7 @@
-import { Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Input } from "./input";
-import { Button } from "./button";
+
 import ConnectButton from "./connectButton";
 
 const Navbar = ({
